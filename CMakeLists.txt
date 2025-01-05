@@ -27,13 +27,9 @@ include(GNUInstallDirs)
 
 string(REPLACE "/${CMAKE_LIBRARY_ARCHITECTURE}" "" CMAKE_INSTALL_LIBDIR_ARCHIND "${CMAKE_INSTALL_LIBDIR}")
 
-set(ARGS_MAIN_PROJECT OFF)
-if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
-    set(ARGS_MAIN_PROJECT ON)
-endif()
-
 option(ARGS_BUILD_EXAMPLE "Build example" ON)
 option(ARGS_BUILD_UNITTESTS "Build unittests" ON)
+option(ARGS_INSTALL "Enable exports" ON)
 
 set(CMAKE_CONFIG_DEST "${CMAKE_INSTALL_LIBDIR_ARCHIND}/cmake/${PROJECT_NAME}")
 set(PackagingTemplatesDir "${CMAKE_CURRENT_SOURCE_DIR}/packaging")
@@ -43,7 +39,7 @@ target_include_directories(args INTERFACE
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>
 	$<INSTALL_INTERFACE:include>)
 
-if(ARGS_MAIN_PROJECT)
+if(ARGS_INSTALL)
     include(CMakePackageConfigHelpers)
     install(FILES args.hxx DESTINATION include)
     install(TARGETS args EXPORT args-targets)
